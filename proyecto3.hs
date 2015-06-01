@@ -16,12 +16,18 @@ ponerFila :: (Integral  a) => a -> a -> a -> a -> Fila
 ponerFila 0 y x2 y2 = []
 ponerFila x y x2 y2 = if ( fx == expr)	then 
 						(26,0,255):ponerFila (x-1) y x2 y2
-					else 
-						(255,255,255):ponerFila (x-1) y x2 y2
+					   else 					   	
+					    if((fromIntegral y2)/2==(fromIntegral y))then
+					    	(128,128,128):ponerFila (x-1) y x2 y2	
+					    else
+					    	if((fromIntegral x2)/2==(fromIntegral x))then
+					    		(128,128,128):ponerFila (x-1) y x2 y2	
+					    	else				   	
+								(255,255,255):ponerFila (x-1) y x2 y2
 
 	where
 		fx = (roundToStr 1 (coordenadaValor y2 y))
-		expr = (roundToStr 1 ((cos(coordenadaValor x2 x))))
+		expr = (roundToStr 1 ((myabs (coordenadaValor x2 x))))
 
 
 pintarCuadro :: (Integral  a) => a -> a -> a -> Matrix
@@ -30,6 +36,9 @@ pintarCuadro x y y2 = reversa (ponerFila x y x y2):pintarCuadro (x) (y-1) y2
 
 reemplazar :: [Char] -> [Char]
 reemplazar a = map repl a
+
+myabs :: Float -> Float
+myabs n = if n >= 0 then n else -n
 
 repl :: Char -> Char
 repl ',' = ' '
