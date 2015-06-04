@@ -102,19 +102,28 @@ crearFila f x0 x1 x y x2 y2 =
 -- graficar (\x -> x) (-100) 100 100 100
 
 
--- ///////////////////////////////////////// RETO 3 DE HENU ///////////////////////////////////
+-- /////////////////////////// Reto 2 /////////////////////////////////////
+
+cero :: (Fractional a, Eq a, Ord a) => (a->a)->a->a->a
+cero f a b 
+    | (b-a)/2 < 0 = (a+b)/2
+    | f(c) == 0        = c
+    | f(a)*f(c) < 0    = cero f a c
+    | otherwise        = cero f c b
+       
+       where 
+       	c = (a+b)/2
+
+
+
+-- /////////////////////////// Reto 3 /////////////////////////////////////
 
 -- integrar (\x -> (1/(x+1))) 0 1 6
 
 integrar :: (Fractional a, Eq a) => (a->a) -> a -> a -> a -> a
 integrar f x0 xn n = h/3 * ( (f (calcularXn x0 x0 h)) + (f (calcularXn x0 n h)) + 4*(sumatoria f 0 ((n-2)/2) x0 h 1) + 2*(sumatoria f 1 ((n-2)/2) x0 h 0) )
---integrar f x0 xn n = sumatoria f 0 1 x0 h 1
---integrar f x0 xn n = f (calcularXn x0 n h)
---integrar f x0 xn n = h/3 * ( (f (calcularXn x0 x0 h)) + ((f (calcularXn x0 n h))))
-
 	where
 		h = ((xn - x0)/n)
-
 
 calcularXn :: (Fractional a, Eq a) => a -> a -> a -> a
 calcularXn x0 n h = x0 + (n*h)
