@@ -2,6 +2,8 @@ import System.Directory
 import Text.Printf
 import Data.Fixed
 
+-- ///////////////////////////////// RETO 1 DE HENU /////////////////////////////////////////--
+
 type Matrix =[[(Int,Int,Int)]]
 type Fila =[(Int,Int,Int)]
 
@@ -42,6 +44,7 @@ crear f x0 x1 w h = (show w ++ " "++ show h ++ " 255 " ++reemplazar (show (crear
 crearColumna :: (Integral  a, Floating b, PrintfArg c, Floating c, Ord b) => (b -> c) -> b -> b -> a -> a -> a -> Matrix
 crearColumna f x0 x1 x 0 y2 = []	
 crearColumna f x0 x1 x y y2 = reversa (crearFila f x0 x1 x y x y2):crearColumna f x0 x1 (x) (y-1) y2
+
 
 crearFila :: (Integral  a, Floating b, Floating c, PrintfArg c, Ord b) => (b -> c) -> b -> b -> a -> a -> a -> a -> Fila
 crearFila f x0 x1 0 y x2 y2 = []
@@ -87,16 +90,36 @@ crearFila f x0 x1 x y x2 y2 =
 	where
 		blanco = (255,255,255)
 		azul = (26,0,255)
-		gris_claro = (128,128,128)
+		gris_claro = (192,192,192)
 		gris_oscuro = (64,64,64)
 		fx = (roundToStr 1 (coordenadaValor y2 y))
 		realy = (((fromIntegral y)-((fromIntegral y2)/2))/10)
 		realx = (((fromIntegral x)-((fromIntegral x2)/2))/10)
 		valorx = (((fromIntegral x)-((fromIntegral x2)/2))/10)		
 		expr = (roundToStr 1 (f realx))
-		--expr = (roundToStr 1 ( f 2.8))
-		--expr = (roundToStr 1 ( cos(coordenadaValor x2 x)))
+		
 
--- createFile (crear(\x -> x) 1 1 100 100)
+-- graficar (\x -> x) (-100) 100 100 100
 
 
+-- ///////////////////////////////////////// RETO 3 DE HENU ///////////////////////////////////
+
+-- integrar (\x -> (1/(x+1))) 0 1 6
+
+integrar :: (Fractional a, Eq a) => (a->a) -> a -> a -> a -> a
+integrar f x0 xn n = h/3 * ( (f (calcularXn x0 x0 h)) + (f (calcularXn x0 n h)) + 4*(sumatoria f 0 ((n-2)/2) x0 h 1) + 2*(sumatoria f 1 ((n-2)/2) x0 h 0) )
+--integrar f x0 xn n = sumatoria f 0 1 x0 h 1
+--integrar f x0 xn n = f (calcularXn x0 n h)
+--integrar f x0 xn n = h/3 * ( (f (calcularXn x0 x0 h)) + ((f (calcularXn x0 n h))))
+
+	where
+		h = ((xn - x0)/n)
+
+
+calcularXn :: (Fractional a, Eq a) => a -> a -> a -> a
+calcularXn x0 n h = x0 + (n*h)
+
+sumatoria :: (Fractional a, Eq a) =>  (a->a) -> a -> a -> a -> a -> a -> a
+sumatoria f k kn x0 h num 
+		| k == kn = f (calcularXn x0 (2*k+num) h)
+		| otherwise = (f (calcularXn x0 (2*k+num) h)) + (sumatoria f (k+1) kn x0 h num)
