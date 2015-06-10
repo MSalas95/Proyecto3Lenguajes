@@ -149,3 +149,5 @@ sumatoria f k kn x0 h num
 		| k == kn = f (calcularXn x0 (2*k+num) h)
 		| otherwise = (f (calcularXn x0 (2*k+num) h)) + (sumatoria f (k+1) kn x0 h num)
 
+
+-- QUEST COMPLETADA!!
